@@ -1,0 +1,73 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--设置波纹颜色-->
+        <item name="android:colorControlHighlight">#0a6e14</item>
+        <!--设置checkbox等控件的选中颜色
+        <item name="android:colorAccent">#0a6e14</item>-->
+        <!--
+        波纹设置
+        组件中的属性
+        android:background="?android:attr/selectableItemBackground"波纹有边界
+        android:background="?android:attr/selectableItemBackgroundBorderless"波纹超出边界
+        -->
+    </style>
+
+    <!--
+        系统默认组合配色
+    -->
+    <style name="AppTheme" parent="AppThemeBase" />
+
+    <!--
+        www.materialpalette.com
+        light-blue/light-blue 组合配色
+    -->
+    <style name="AppTheme.LB" parent="AppThemeBase">
+        <item name="colorPrimary">@color/LB_primary</item>
+        <item name="colorPrimaryDark">@color/LB_primary_dark</item>
+        <item name="colorAccent">@color/LB_accent</item>
+        <item name="android:colorControlHighlight">@color/LB_primary_light</item>
+    </style>
+
+    <style name="AppTheme.LB.NoActionBar" parent="AppTheme.LB">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--
+        www.materialpalette.com
+        light-blue/light-green 组合配色
+    -->
+    <style name="AppTheme.LBLG" parent="AppThemeBase">
+        <item name="colorPrimary">@color/LBLG_primary</item>
+        <item name="colorPrimaryDark">@color/LBLG_primary_dark</item>
+        <item name="colorAccent">@color/LBLG_accent</item>
+        <item name="android:colorControlHighlight">@color/LBLG_primary_light</item>
+    </style>
+
+    <style name="AppTheme.LBLG.NoActionBar" parent="AppTheme.LBLG">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="behavior_peekHeight">100dp</item>
+    </style>
+
+
+    <style name="MyOverflowText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+</resources>

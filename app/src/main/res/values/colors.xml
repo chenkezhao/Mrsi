@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--
+        属性说明：
+
+    -->
+        primary：原色
+        primary_dark：暗原色
+        primary_light：光原色
+        accent：强调色
+        primary_text：主要文本
+        secondary_text：辅助文本
+        icons：文/图标
+        divider：分频器颜色
+
+        附上例子，路径：Mrsi/doc/colors_light_blue_light_blue
+
+    <!--
+        www.materialpalette.com
+        light-blue/light-blue 组合配色
+    -->
+    <color name="LB_primary">#03A9F4</color>
+    <color name="LB_primary_dark">#0288D1</color>
+    <color name="LB_primary_light">#B3E5FC</color>
+    <color name="LB_accent">#03A9F4</color>
+    <color name="LB_primary_text">#212121</color>
+    <color name="LB_secondary_text">#727272</color>
+    <color name="LB_icons">#FFFFFF</color>
+    <color name="LB_divider">#B6B6B6</color>
+
+
+
+
+    <!--
+        www.materialpalette.com
+        light-blue/light-green 组合配色
+    -->
+
+    <color name="LBLG_primary">#03A9F4</color>
+    <color name="LBLG_primary_dark">#0288D1</color>
+    <color name="LBLG_primary_light">#B3E5FC</color>
+    <color name="LBLG_accent">#8BC34A</color>
+    <color name="LBLG_primary_text">#212121</color>
+    <color name="LBLG_secondary_text">#727272</color>
+    <color name="LBLG_icons">#FFFFFF</color>
+    <color name="LBLG_divider">#B6B6B6</color>
+
+
+</resources>
