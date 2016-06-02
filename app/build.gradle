@@ -27,5 +27,6 @@ dependencies {
     compile 'com.zhy:autolayout:1.4.3'/*像素自适应布局*/
     compile 'com.android.support:cardview-v7:23.4.0'/*圆角和阴影*/
     compile 'homhomlin.lib:sldinglayout:0.8.1'/*仿微信网页浏览的下拉*/
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
     /* compile 'com.zhy:changeskin:3.0.0'基于插件式的Android换肤框架，支持app内和或者外部插件式提供资源的换肤方案，无需重启Activity*/
 }
