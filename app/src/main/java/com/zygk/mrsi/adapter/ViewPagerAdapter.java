@@ -3,6 +3,7 @@ package com.zygk.mrsi.adapter;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +14,7 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zygk.mrsi.R;
 import com.zygk.mrsi.activity.LoginActivity;
+import com.zygk.mrsi.activity.MainActivity;
 
 import lib.homhomlib.design.SlidingLayout;
 
@@ -90,8 +93,9 @@ public class ViewPagerAdapter extends PagerAdapter {
             tv_reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mLoginActivity.finish();
+                    //mLoginActivity.getWindow().setExitTransition(new Explode());
                     mContext.startActivity(new Intent(mContext,LoginActivity.class));
+                    mLoginActivity.overridePendingTransition(R.anim.fade, R.anim.hold);
                 }
             });
 
@@ -181,10 +185,10 @@ public class ViewPagerAdapter extends PagerAdapter {
                             @Override
                             public void run() {
                                 //null
+                                fabAnimationReveal();
                             }
                         });
 
-                        fabAnimationReveal();
 
                         break;
                     default:
@@ -280,7 +284,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .scaleX(0)
                 .scaleY(0)
                 .rotation(360f)
-                .setDuration(2000)
+                .setDuration(1000)
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .withEndAction(endAction)
                 .setListener(new ViewPropertyAnimatorListener() {
@@ -308,7 +312,7 @@ public class ViewPagerAdapter extends PagerAdapter {
      * 动画效果
      */
     private void fabAnimationReveal(){
-        SlidingLayout view = mLoginActivity.sl_panel;
+        final SlidingLayout view = mLoginActivity.sl_panel;
 //        view 操作的视图
 //        centerX 动画开始的中心点X
 //        centerY 动画开始的中心点Y
@@ -318,6 +322,43 @@ public class ViewPagerAdapter extends PagerAdapter {
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(2000);
         animator.start();
+
+
+        mViewCompat.animate(view)
+                .alpha(0f)
+                .rotation(360f)
+                .setDuration(2000)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.clearAnimation();
+                        view.setRotation(0f);
+                        view.setAlpha(1f);
+                    }
+                })
+                .start();
+
+
+        new AsyncTask<String, Integer, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    //为了演示进度,休眠1500毫秒
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                mContext.startActivity(new Intent(mContext,MainActivity.class));
+                mLoginActivity.overridePendingTransition(R.anim.fade, R.anim.hold);
+                super.onPostExecute(s);
+            }
+        }.execute();
     }
 
 
