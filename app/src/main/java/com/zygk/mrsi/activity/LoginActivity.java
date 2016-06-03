@@ -1,25 +1,17 @@
 package com.zygk.mrsi.activity;
 
-import android.animation.AnimatorSet;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.ActionBar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.animation.LinearInterpolator;
-import android.widget.EditText;
+import android.support.v7.widget.CardView;
+import android.widget.LinearLayout;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zygk.mrsi.R;
 import com.zygk.mrsi.adapter.ViewPagerAdapter;
+
+import lib.homhomlib.design.SlidingLayout;
 
 public class LoginActivity extends BaseActivity {
 
@@ -27,6 +19,7 @@ public class LoginActivity extends BaseActivity {
     private ViewPager mViewPager;
     private String[] tabs = {"Sign in", "settings"};
     public FloatingActionButton mFabLogin;
+    public SlidingLayout sl_panel;
 
 
     @Override
@@ -75,9 +68,9 @@ public class LoginActivity extends BaseActivity {
         mTabLayout = (TabLayout) findViewById(R.id.login_tl_tab);
         mViewPager = (ViewPager) findViewById(R.id.login_vp_pager);
         mFabLogin = (FloatingActionButton) findViewById(R.id.login_fab_dome);
+        sl_panel = (SlidingLayout) findViewById(R.id.login_sl_panel);
 
 
     }
-
 
 }

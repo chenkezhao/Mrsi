@@ -17,6 +17,7 @@
 
 
             <lib.homhomlib.design.SlidingLayout
+                android:id="@+id/login_sl_panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:sliding_mode="both">

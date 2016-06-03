@@ -1,24 +1,34 @@
 package com.zygk.mrsi.adapter;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zygk.mrsi.R;
 import com.zygk.mrsi.activity.LoginActivity;
+
+import lib.homhomlib.design.SlidingLayout;
 
 /**
  * Created by 陈科肇 on 2016/5/20.
@@ -35,11 +45,12 @@ public class ViewPagerAdapter extends PagerAdapter {
     private ViewCompat mViewCompat;
     private FloatingActionButton fab;
 
+    private TextView tv_reset;
+
     public ViewPagerAdapter(LoginActivity loginActivity, String[] titles) {
         this.titles = titles;
         this.mContext = loginActivity;
         this.mLoginActivity = loginActivity;
-        fab = loginActivity.mFabLogin;
     }
 
     //开始调用显示页面
@@ -71,89 +82,18 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, int position) {
         if (position == 0) {
             v_user = LayoutInflater.from(mContext).inflate(R.layout.viewpager_login_login, null);
-
-
-            v_user = LayoutInflater.from(mContext).inflate(R.layout.viewpager_login_login, null);
-            u_name = (EditText) v_user.findViewById(R.id.login_et_username);
-            u_password = (EditText) v_user.findViewById(R.id.login_et_password);
-            u_name.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    checkUserInfo();
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-            u_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    checkUserInfo();
-                }
-            });
-            u_password.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    checkUserInfo();
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-            u_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    checkUserInfo();
-                }
-            });
-
-
-            fab.setOnClickListener(new View.OnClickListener() {
+            UserInitView();
+            UserInitEvent();
+            tv_reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!checkUserInfo()) {
-                        fabAnimationRotate(new Runnable() {
-                            @Override
-                            public void run() {
-                                //null
-                            }
-                        });
-                        return;
-                    }
-                    switch (v.getId()) {
-                        case R.id.login_fab_dome:
-                            fabAnimationToSmall(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //null
-                                }
-                            });
-                            break;
-                        default:
-                            throw new UnsupportedOperationException(
-                                    "The onClick method has not been implemented for " + mContext.getResources()
-                                            .getResourceEntryName(v.getId()));
-                    }
+                    mLoginActivity.finish();
+                    mContext.startActivity(new Intent(mContext,LoginActivity.class));
                 }
             });
-
 
             container.addView(v_user);//添加页卡
             return v_user;
@@ -162,6 +102,98 @@ public class ViewPagerAdapter extends PagerAdapter {
             container.addView(v_settings);//添加页卡
             return v_settings;
         }
+    }
+
+
+
+
+
+
+    private void UserInitView() {
+        u_name = (EditText) v_user.findViewById(R.id.login_et_username);
+        u_password = (EditText) v_user.findViewById(R.id.login_et_password);
+        tv_reset = (TextView) v_user.findViewById(R.id.login_tv_reset);
+        fab = mLoginActivity.mFabLogin;
+    }
+
+    private void UserInitEvent() {
+        u_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkUserInfo();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        u_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                checkUserInfo();
+            }
+        });
+        u_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkUserInfo();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        u_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                checkUserInfo();
+            }
+        });
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkUserInfo()) {
+                    fabAnimationRotate(new Runnable() {
+                        @Override
+                        public void run() {
+                            //null
+                        }
+                    });
+                    return;
+                }
+                switch (v.getId()) {
+                    case R.id.login_fab_dome:
+                        fabAnimationToSmall(new Runnable() {
+                            @Override
+                            public void run() {
+                                //null
+                            }
+                        });
+
+                        fabAnimationReveal();
+
+                        break;
+                    default:
+                        throw new UnsupportedOperationException(
+                                "The onClick method has not been implemented for " + mContext.getResources()
+                                        .getResourceEntryName(v.getId()));
+                }
+            }
+        });
     }
 
 
@@ -269,6 +301,23 @@ public class ViewPagerAdapter extends PagerAdapter {
                 })
                 .start();
 
+    }
+
+
+    /**
+     * 动画效果
+     */
+    private void fabAnimationReveal(){
+        SlidingLayout view = mLoginActivity.sl_panel;
+//        view 操作的视图
+//        centerX 动画开始的中心点X
+//        centerY 动画开始的中心点Y
+//        startRadius 动画开始半径
+//        startRadius 动画结束半径
+        Animator animator = ViewAnimationUtils.createCircularReveal(view,view.getWidth()/2,view.getHeight()/2,(float) Math.hypot(view.getWidth()/2, view.getHeight()/2),0);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.setDuration(2000);
+        animator.start();
     }
 
 
