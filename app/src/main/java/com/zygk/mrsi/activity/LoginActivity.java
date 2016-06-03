@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
         //第二步
-        ViewPagerAdapter mAdapter = new ViewPagerAdapter(this,this, tabs);
+        ViewPagerAdapter mAdapter = new ViewPagerAdapter(this, tabs);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
         //第三步
         final TabLayout.TabLayoutOnPageChangeListener listener = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);

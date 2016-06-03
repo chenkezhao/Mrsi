@@ -1,8 +1,11 @@
 package com.zygk.mrsi.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zygk.mrsi.R;
@@ -28,11 +32,14 @@ public class ViewPagerAdapter extends PagerAdapter {
     private View v_user, v_settings;
     private EditText u_name;
     private EditText u_password;
+    private ViewCompat mViewCompat;
+    private FloatingActionButton fab;
 
-    public ViewPagerAdapter(LoginActivity loginActivity, Context context, String[] titles) {
+    public ViewPagerAdapter(LoginActivity loginActivity, String[] titles) {
         this.titles = titles;
-        this.mContext = context;
+        this.mContext = loginActivity;
         this.mLoginActivity = loginActivity;
+        fab = loginActivity.mFabLogin;
     }
 
     //开始调用显示页面
@@ -118,35 +125,26 @@ public class ViewPagerAdapter extends PagerAdapter {
             });
 
 
-            mLoginActivity.mFabLogin.setOnClickListener(new View.OnClickListener() {
+            fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!checkUserInfo()) {
+                        fabAnimationRotate(new Runnable() {
+                            @Override
+                            public void run() {
+                                //null
+                            }
+                        });
                         return;
                     }
                     switch (v.getId()) {
                         case R.id.login_fab_dome:
-                            ViewCompat.animate(mLoginActivity.mFabLogin)
-                                    .scaleX(0)
-                                    .scaleY(0)
-                                    .rotation(360f)
-                                    .setDuration(2000)
-                                    .setInterpolator(new FastOutSlowInInterpolator())
-                                    .withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                         /*ViewCompat
-                                        .animate(mFabLogin)
-                                        .scaleX(1.0F)
-                                        .scaleY(1.0F)
-                                        .rotation(-360f)
-                                        .setDuration(2000)
-                                        .setInterpolator(new FastOutSlowInInterpolator())
-                                        .start();*/
-                                        }
-                                    })
-                                    .start();
-
+                            fabAnimationToSmall(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //null
+                                }
+                            });
                             break;
                         default:
                             throw new UnsupportedOperationException(
@@ -167,6 +165,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
 
+    /**
+     * 用户登录信息验证
+     *
+     * @return
+     */
     private boolean checkUserInfo() {
         String name = u_name.getText().toString().trim();
         String password = u_password.getText().toString().trim();
@@ -186,37 +189,94 @@ public class ViewPagerAdapter extends PagerAdapter {
             u_password.setError("用户名或密码不正确");
         }
         if (isRun) {
-            ViewCompat
-                    .animate(mLoginActivity.mFabLogin)
-                    .scaleX(1.0F)
-                    .scaleY(1.0F)
-                    .rotation(360f)
-                    .setDuration(2000)
-                    .setInterpolator(new FastOutSlowInInterpolator())
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLoginActivity.mFabLogin.setImageResource(R.drawable.ic_check_black);
-                        }
-                    })
-                    .start();
+            fabAnimationRotate(new Runnable() {
+                @Override
+                public void run() {
+                    fab.setImageResource(R.drawable.ic_check_black);
+                }
+            });
             return true;
         } else {
-            ViewCompat
-                    .animate(mLoginActivity.mFabLogin)
-                    .scaleX(1.0F)
-                    .scaleY(1.0F)
-                    .rotation(-360f)
-                    .setDuration(2000)
-                    .setInterpolator(new FastOutSlowInInterpolator())
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLoginActivity.mFabLogin.setImageResource(R.drawable.ic_close_black);
-                        }
-                    })
-                    .start();
+            fabAnimationRotate(new Runnable() {
+                @Override
+                public void run() {
+                    fab.setImageResource(R.drawable.ic_close_black);
+                    //Toast.makeText(mContext, "xxxx", Toast.LENGTH_SHORT).show();
+                }
+            });
             return false;
         }
+    }
+
+
+    /**
+     * fab按钮动画旋转
+     */
+    private void fabAnimationRotate(@Nullable Runnable action) {
+        mViewCompat.animate(fab)
+                .rotation(360f)
+                .setDuration(1000)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .withEndAction(action)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        clearAnimation();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(View view) {
+
+                    }
+                })
+                .start();
+
+
+    }
+
+
+    /**
+     * fab按钮动画变小及旋转
+     */
+    private void fabAnimationToSmall(@Nullable Runnable endAction) {
+        mViewCompat.animate(fab)
+                .scaleX(0)
+                .scaleY(0)
+                .rotation(360f)
+                .setDuration(2000)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .withEndAction(endAction)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        clearAnimation();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(View view) {
+
+                    }
+                })
+                .start();
+
+    }
+
+
+    /**
+     * 清除view保留的动画记录
+     */
+    private void clearAnimation() {
+        fab.clearAnimation();
+        fab.setRotation(0f);
     }
 }
