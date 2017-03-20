@@ -4,4 +4,4 @@
 
 
 ## 2.Activity到Activity的动画过渡
-![陈科肇](https://github.com/chenkezhao/Mrsi/blob/master/doc/images/Activity Transition And Animator.gif "陈科肇")
+![陈科肇](https://github.com/chenkezhao/Mrsi/blob/master/doc/images/Activity%20Transition%20And%20Animator.gif "陈科肇")
